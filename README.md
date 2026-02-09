@@ -89,10 +89,13 @@ El apartado:
     }
 ```
 Este bloque de código es el "cerebro" del Balanceador de Carga. Su función es gestionar cómo se reenvían las peticiones de los usuarios hacia los servidores backend y asegurar que la comunicación no se pierda.
-
+```
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+```
 En la parte de la "Información del Cliente", $host Le dice al backend qué dominio está visitando el usuario (útil si tienes varias webs), $remote_addr le entrega al backend la dirección IP real de la persona que está navegando, X-Forwarded-For mantiene un historial de todas las IPs por las que ha pasado la conexión y X-Forwarded-Proto le avisa al backend si el usuario entró por http o https.
-
-La sección:
 
 ```
 proxy_connect_timeout 60s;
@@ -100,6 +103,18 @@ proxy_send_timeout 60s;
 proxy_read_timeout 60s;
 ```
 Establecen un límite de 60 segundos para conectar, enviar o leer datos de los servidores backend. Si el backend tarda más de un minuto en responder, el balanceador cortará la conexión y dará un error al usuario.
+
+Por último:
+
+```
+    # Health check endpoint (opcional)
+    location /nginx-health {
+        access_log off;
+        return 200 "healthy\n";
+        add_header Content-Type text/plain;
+    }
+```
+Este bloque de configuración es un punto de verificación de salud. Su propósito es ofrecer una forma rápida y automática de saber si el servidor Nginx está vivo y respondiendo correctamente, sin interferir con el tráfico normal de la web.
 
 <img width="801" height="814" alt="imagen" src="https://github.com/user-attachments/assets/e76195d8-84d4-4a46-a233-49f8432b13c1" />
 
