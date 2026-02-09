@@ -56,7 +56,7 @@ Para la configuración del balanceador, hay que seguir los siguientes pasos:
 5. Con la copia se configura el balanceador, asignando las direcciones IP de cada servidor backend.
 6. Una vez configurado el archivo de configuración de Nginx se ejecutarán los comandos ```sudo ln -sf /etc/nginx/sites-available/balancer /etc/nginx/sites-enabled/``` que habilita la configuración que se acaba de hacer, y el comando ```sudo rm -f /etc/nginx/sites-enabled/default``` que elimina el archivo de configuración de Nginx por defecto.
 7. Para terminar, se ejecutan los comandos ```sudo systemctl restart nginx``` para reiniciar el servicio, y el comando ```sudo systemctl status nginx``` para berificar que el servicio Nginx funciona correctamente.
-8. Explicacion de la configuración.
+### Explicación de la configuración.
 
 En este apartado se explicará como fuciona el archivo de configuración.
 
@@ -120,6 +120,7 @@ Este bloque de configuración es un punto de verificación de salud. Su propósi
 
 
 2. SERVIDORES BACKEND
+
 Para la instalación de los Servidores Backend se seguirán los siguientes pasos:
 1. Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
 2. Con el comando ```sudo apt install nginx nfs-commons -y``` haciendo que se instale nginx en el sistema.
@@ -128,9 +129,14 @@ Para la instalación de los Servidores Backend se seguirán los siguientes pasos
 5. Con la copia se configura el balanceador, asignando las direcciones IP de cada servidor backend.
 6. Una vez configurado el archivo de configuración de Nginx se ejecutarán los comandos ```sudo ln -sf /etc/nginx/sites-available/balancer /etc/nginx/sites-enabled/``` que habilita la configuración que se acaba de hacer, y el comando ```sudo rm -f /etc/nginx/sites-enabled/default``` que elimina el archivo de configuración de Nginx por defecto.
 7. Para terminar, se ejecutan los comandos ```sudo systemctl restart nginx``` para reiniciar el servicio, y el comando ```sudo systemctl status nginx``` para berificar que el servicio Nginx funciona correctamente.
-8. Explicacion de la configuración.
+8. Para el montaje del servicio NFS, se tiene que ejecutar el comando ```sudo mount -t nfs 192.168.20.10:/var/www/html/webapp /var/www/html/webapp```, que monta la carpeta compartida con el servidor NFS.
+### Explicacion de la configuración.
+
+
 
 4. SERVIDOR NFS Y PHP
+
+
 
 5. SERVIDOR HAPROXY
 
