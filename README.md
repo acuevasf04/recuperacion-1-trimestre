@@ -90,6 +90,8 @@ El apartado:
 ```
 Este bloque de código es el "cerebro" del Balanceador de Carga. Su función es gestionar cómo se reenvían las peticiones de los usuarios hacia los servidores backend y asegurar que la comunicación no se pierda.
 
+En la parte de la "Información del Cliente", $host Le dice al backend qué dominio está visitando el usuario (útil si tienes varias webs), $remote_addr le entrega al backend la dirección IP real de la persona que está navegando, X-Forwarded-For mantiene un historial de todas las IPs por las que ha pasado la conexión y X-Forwarded-Proto le avisa al backend si el usuario entró por http o https.
+
 La sección:
 
 ```
@@ -100,10 +102,6 @@ proxy_read_timeout 60s;
 Establecen un límite de 60 segundos para conectar, enviar o leer datos de los servidores backend. Si el backend tarda más de un minuto en responder, el balanceador cortará la conexión y dará un error al usuario.
 
 <img width="801" height="814" alt="imagen" src="https://github.com/user-attachments/assets/e76195d8-84d4-4a46-a233-49f8432b13c1" />
-
-
-
-
 
 
 2. SERVIDORES BACKEND
