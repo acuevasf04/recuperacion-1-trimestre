@@ -7,6 +7,10 @@ apt-get update -qq
 #Instalar MariaDB Server y Galera
 DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server mariadb-client galera-4 rsync
 
+#Desactivar internet de la máquina (temporal hasta que se reinicie).
+
+ip route del default
+
 #Detener MariaDB para configurar Galera
 systemctl stop mariadb
 
@@ -45,3 +49,4 @@ systemctl enable mariadb
 
 # Mostrar estado del cluster
 mysql -e "SHOW STATUS LIKE 'wsrep_%';" 2>/dev/null | grep -E "(wsrep_cluster_size|wsrep_cluster_status|wsrep_ready|wsrep_connected)"
+
