@@ -47,6 +47,63 @@ En este apartado se explicará como se configuran las máquinas de la red.
 
 1. BALANCEADOR
 
+Para la configuración del balanceador, hay que seguir los siguientes pasos:
+
+1. Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
+2. Con el comando ```sudo apt install nginx -y``` haciendo que se instale nginx en el sistema.
+3. Luego hay que acceder a los archivos de nginx que se encuentran en el directorio ```/etc/nginx/sites-avalibles```. Este es donde se encuentran los archivos de configuración de Nginx.
+4. Con el comando ```sudo cp default balancer``` creamos un archivo de configuración Nginx para el balanceador.
+5. Con la copia se configura el balanceador, asignando las direcciones IP de cada servidor backend.
+6. Una vez configurado el archivo de configuración de Nginx se ejecutarán los comandos ```sudo ln -sf /etc/nginx/sites-available/balancer /etc/nginx/sites-enabled/``` que habilita la configuración que se acaba de hacer, y el comando ```sudo rm -f /etc/nginx/sites-enabled/default``` que elimina el archivo de configuración de Nginx por defecto.
+7. Para terminar, se ejecutan los comandos ```sudo systemctl restart nginx``` para reiniciar el servicio, y el comando ```sudo systemctl status nginx``` para berificar que el servicio Nginx funciona correctamente.
+8. Explicacion de la configuración.
+
+En este apartado se explicará como fuciona el archivo de configuración.
+
+En el primer apartado, en esta sección:
+
+```
+upstream backend_servers {
+    server 192.168.20.11:80 max_fails=3 fail_timeout=30s;
+    server 192.168.20.12:80 max_fails=3 fail_timeout=30s;
+}
+```
+Se está proporcionando los servidores backend de la red con su dirección IP de cada uno, el puerto por donde escucha las peticiones, y la cantidad de fallos que permite el balanceador para poder entrar en el servidor backend y el tiempo de espera que le da.
+
+El apartado:
+
+```
+    location / {
+        proxy_pass http://backend_servers;
+        
+        # Headers para mantener informacion del cliente
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # Timeouts
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+```
+Este bloque de código es el "cerebro" del Balanceador de Carga. Su función es gestionar cómo se reenvían las peticiones de los usuarios hacia los servidores backend y asegurar que la comunicación no se pierda.
+
+La sección:
+
+```
+proxy_connect_timeout 60s;
+proxy_send_timeout 60s;
+proxy_read_timeout 60s;
+```
+Establecen un límite de 60 segundos para conectar, enviar o leer datos de los servidores backend. Si el backend tarda más de un minuto en responder, el balanceador cortará la conexión y dará un error al usuario.
+
+<img width="801" height="814" alt="imagen" src="https://github.com/user-attachments/assets/e76195d8-84d4-4a46-a233-49f8432b13c1" />
+
+
+
+
 
 
 2. SERVIDORES BACKEND
