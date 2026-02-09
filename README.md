@@ -120,9 +120,18 @@ Este bloque de configuración es un punto de verificación de salud. Su propósi
 
 
 2. SERVIDORES BACKEND
+Para la instalación de los Servidores Backend se seguirán los siguientes pasos:
+1. Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
+2. Con el comando ```sudo apt install nginx nfs-commons -y``` haciendo que se instale nginx en el sistema.
+3. Luego hay que acceder a los archivos de nginx que se encuentran en el directorio ```/etc/nginx/sites-avalibles```. Este es donde se encuentran los archivos de configuración de Nginx.
+4. Con el comando ```sudo cp default balancer``` creamos un archivo de configuración Nginx para el balanceador.
+5. Con la copia se configura el balanceador, asignando las direcciones IP de cada servidor backend.
+6. Una vez configurado el archivo de configuración de Nginx se ejecutarán los comandos ```sudo ln -sf /etc/nginx/sites-available/balancer /etc/nginx/sites-enabled/``` que habilita la configuración que se acaba de hacer, y el comando ```sudo rm -f /etc/nginx/sites-enabled/default``` que elimina el archivo de configuración de Nginx por defecto.
+7. Para terminar, se ejecutan los comandos ```sudo systemctl restart nginx``` para reiniciar el servicio, y el comando ```sudo systemctl status nginx``` para berificar que el servicio Nginx funciona correctamente.
+8. Explicacion de la configuración.
 
-3. SERVIDOR NFS Y PHP
+4. SERVIDOR NFS Y PHP
 
-4. SERVIDOR HAPROXY
+5. SERVIDOR HAPROXY
 
-5. SERVIDORES MARIADB
+6. SERVIDORES MARIADB
