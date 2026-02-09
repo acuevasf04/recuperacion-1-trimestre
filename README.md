@@ -42,4 +42,17 @@ Los servidores MariaDB sirven para alojar todos los datos que se van a generar e
 
 <img width="545" height="732" alt="arquitectura" src="https://github.com/user-attachments/assets/3def6543-99a0-4334-b133-635158af90ce" />
 
+## 3. CONFIGURACIÓN DE LAS MÁQUINAS
+En este apartado se explicará como se configuran las máquinas de la red.
 
+1. BALANCEADOR
+
+
+
+2. SERVIDORES BACKEND
+
+3. SERVIDOR NFS Y PHP
+
+4. SERVIDOR HAPROXY
+
+5. SERVIDORES MARIADB
