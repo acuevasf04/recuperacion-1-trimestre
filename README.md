@@ -132,7 +132,11 @@ Para la instalación de los Servidores Backend se seguirán los siguientes pasos
 8. Para el montaje del servicio NFS, se tiene que ejecutar el comando ```sudo mount -t nfs 192.168.20.10:/var/www/html/webapp /var/www/html/webapp```, que monta la carpeta compartida con el servidor NFS.
 ### Explicacion de la configuración.
 
+En este apartado se explicará como fuciona el archivo de configuración.
 
+
+
+<img width="929" height="637" alt="imagen" src="https://github.com/user-attachments/assets/d47456a7-c3f5-4a2f-ae64-c907820013d8" />
 
 4. SERVIDOR NFS Y PHP
 
