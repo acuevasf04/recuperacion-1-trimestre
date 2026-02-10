@@ -45,7 +45,7 @@ Los servidores MariaDB sirven para alojar todos los datos que se van a generar e
 ## 3. CONFIGURACIÓN DE LAS MÁQUINAS
 En este apartado se explicará como se configuran las máquinas de la red.
 
-1. BALANCEADOR
+#### 1. BALANCEADOR
 
 Para la configuración del balanceador, hay que seguir los siguientes pasos:
 
@@ -119,7 +119,7 @@ Este bloque de configuración es un punto de verificación de salud. Su propósi
 <img width="801" height="814" alt="imagen" src="https://github.com/user-attachments/assets/e76195d8-84d4-4a46-a233-49f8432b13c1" />
 
 
-2. SERVIDORES BACKEND
+#### 2. SERVIDORES BACKEND
 
 Para la instalación de los Servidores Backend se seguirán los siguientes pasos:
 1. Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
@@ -175,10 +175,14 @@ Por último, en el bloque de ```location ~ /\.ht``` una medida de protección pa
 
 <img width="929" height="637" alt="imagen" src="https://github.com/user-attachments/assets/d47456a7-c3f5-4a2f-ae64-c907820013d8" />
 
-4. SERVIDOR NFS Y PHP
+#### 3. SERVIDOR NFS Y PHP
 
+Para la instalación y configuración de los servicios PHP con los siguientes pasos.
 
+1.  Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
+2.  Con el comando ```sudo apt install nfsnfs-kernel-server php-fpm php-mysql php-curl php-gd php-mbstring \ php-xml php-xmlrpc php-soap php-intl php-zip netcat-openbsd -y``` para la instalación de los servicios de NFS y el interprete de PHP.
+3.  Ahora se tiene que crear la carpeta con el comando ```sudo mkdir -p /var/www/html/webapp``` y se le cambia de dueño con el comando ```sudo chown -R www-data:www-data /var/www/html/webapp``` y cambia los permisos con el comando ```sudo chmod -R 755 /var/www/html/webapp``` haciendo que el dueño de la carpeta tenga control absoluto y el grupo y los usuarios ajenos a la carpeta tengan permisos de lectura y ejecución.
 
-5. SERVIDOR HAPROXY
+4. SERVIDOR HAPROXY
 
-6. SERVIDORES MARIADB
+5. SERVIDORES MARIADB
