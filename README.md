@@ -133,8 +133,45 @@ Para la instalación de los Servidores Backend se seguirán los siguientes pasos
 ### Explicacion de la configuración.
 
 En este apartado se explicará como fuciona el archivo de configuración.
+```
+    listen 80;
+    server_name _;
+    
+    root /var/www/html/webapp;
+    index index.php index.html index.htm;
+```
+En esta parte del archivo de configuración de Nginx hace que el servidor escuche a través del puerto 80 por el protocolo HTTP. El ```server_name``` indica que este bloque de configuración responderá a cualquier nombre de dominio o dirección IP que llegue al servidor. ```root /var/www/html/webapp;``` indica a Nginx la carpeta física en el disco duro donde están guardados los archivos de tu sitio web. 
 
+```
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+    
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+```
+En este archivo la sección ```access_log /var/log/nginx/access.log``` registra cada visita, guarda la IP del usuario, qué página pidió, a qué hora y si la carga fue exitosa o no. <br>
+La línea de ```error_log /var/log/nginx/error.log``` registra solo los fallos. Si un archivo no existe, si hay un problema de permisos o si el servidor PHP está caído, los detalles aparecerán aquí para que puedas arreglarlo. <br>
+El bloque de ```location /``` define qué debe hacer Nginx con cualquier petición que llegue a la raíz del sitio. ```try_files``` funciona como un sistema de "último recurso" que intenta tres cosas en este orden exacto, ```$uri``` primero busca si existe un archivo real con ese nombre, ```$uri /```si no es un archivo, busca si existe una carpeta con ese nombre y ```/index.php?$args;``` si no encontró ni un archivo ni una carpeta, se rinde y le pasa la bola a PHP.
 
+```
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass 192.168.20.10:9000;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+    
+    location ~ /\.ht {
+        deny all;
+    }
+```
+En el bloque de ```location ~ \.php$``` Esta línea usa una expresión regular (el símbolo ~) para decirle a Nginx: "cualquier archivo que termine en .php, trátalo con estas reglas". <br>
+La línea de ```include snippets/fastcgi-php.conf``` hace que cargue una configuración estándar que ayuda a Nginx a entender cómo pasar archivos PHP de forma segura. <br>
+La línea de ```fastcgi_pass 192.168.20.10:9000;``` le dice a Nginx que el interprete de PHP no se encuentra en un servidor externo, en este caso en el servidor NFS y PHP, proporcionando la dirección IP y el puerto por donde escucha las peticiones y ```fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name``` es una etiqueta de envío la cual le dice a Nginx en que carpeta se encuentra los programas de PHP. <br>
+En la línea de ``` include fastcgi_params``` incluye una lista de variables necesarias para que PHP entienda cosas como la dirección IP del visitante.
+
+Por último, en el bloque de ```location ~ /\.ht``` una medida de protección para servidores que vienen de entornos Apache o que tienen archivos de configuración sensibles y hace que no permita el acceso a archivos que no sean ```.ht```.
 
 <img width="929" height="637" alt="imagen" src="https://github.com/user-attachments/assets/d47456a7-c3f5-4a2f-ae64-c907820013d8" />
 
