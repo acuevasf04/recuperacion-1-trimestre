@@ -182,7 +182,17 @@ Para la instalación y configuración de los servicios PHP con los siguientes pa
 1.  Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
 2.  Con el comando ```sudo apt install nfsnfs-kernel-server php-fpm php-mysql php-curl php-gd php-mbstring \ php-xml php-xmlrpc php-soap php-intl php-zip netcat-openbsd -y``` para la instalación de los servicios de NFS y el interprete de PHP.
 3.  Ahora se tiene que crear la carpeta con el comando ```sudo mkdir -p /var/www/html/webapp``` y se le cambia de dueño con el comando ```sudo chown -R www-data:www-data /var/www/html/webapp``` y cambia los permisos con el comando ```sudo chmod -R 755 /var/www/html/webapp``` haciendo que el dueño de la carpeta tenga control absoluto y el grupo y los usuarios ajenos a la carpeta tengan permisos de lectura y ejecución.
+4.  Una vez realizado esto, añades en el archivo ```/etc/exports``` las siguientes líneas: ```/var/www/html/webapp 192.168.20.11(rw,sync,no_subtree_check,no_root_squash)``` y ```/var/www/html/webapp 192.168.20.12(rw,sync,no_subtree_check,no_root_squash)``` para decir que servidores son a los que tienen que ir asociados.
+5.  Se reiniciará el servidor con el comando ```systemctl restart nfs-kernel-server``` y se verá el estado del servicio con el comando ```systemctl status nfs-kernel-server``` para comprobar el estado del servicio.
+6.  Para que el servicio PHP-FPM pueda escuchar por el puerto 9000, el cual tienes que ejcutar el siguiente comando para que se pueda escuchar por ese puerto.
+```
+PHP_VERSION=$(php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')
+PHP_FPM_CONF="/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
 
-4. SERVIDOR HAPROXY
+sed -i 's|listen = /run/php/php.*-fpm.sock|listen = 9000|' "$PHP_FPM_CONF"
+sed -i 's|;listen.allowed_clients.*|listen.allowed_clients = 192.168.20.11,192.168.20.12|' "$PHP_FPM_CONF"
+```
+Este fragmento de script hace que se configure el puerto 9000. Definiendo la versión del interprete de PHP. También se define una ruta para la configuración del servicio FPM de PHP. Y permite solo a los dos servidores backend de la red.
+8. SERVIDOR HAPROXY
 
-5. SERVIDORES MARIADB
+9. SERVIDORES MARIADB
