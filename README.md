@@ -207,3 +207,5 @@ En este código se define el servidor host para proporcionarnos los datos ```def
 
 
 #### 5. SERVIDORES MARIADB
+
+<img width="753" height="478" alt="imagen" src="https://github.com/user-attachments/assets/cb30978b-38ba-4857-bb2e-5749877a760f" />
