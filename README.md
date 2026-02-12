@@ -217,7 +217,7 @@ Para la instalación y configuración del servicio de Haproxy con los siguientes
 3. Se le quitará la conexión a internet con el comando ```sudo ip route del default```. Esto es una solución temporal para quitar la conextión a internet, si quiere quitar el internet a una máquina permanentemente se tiene que comentar la linea del Gateway en el archivo ```/etc/network/interfaces```.
 4. Ahora se para el servicio de MariaDB con el comando ```sudo systemctl stop mariadb```, y se accede al archivo de configuración del cluster con el comando ```sudo nano /etc/mysql/mariadb.conf.d/60-galera.cnf```
 5. Y se configura con la siguiente disposición de la captura que sale a continuación:
-<img width="753" height="478" alt="imagen" src="https://github.com/user-attachments/assets/cb30978b-38ba-4857-bb2e-5749877a760f" />
+<img width="753" height="478" alt="imagen" src="https://github.com/user-attachments/assets/cb30978b-38ba-4857-bb2e-5749877a760f" /><br>
 ```
 binlog_format=ROW
 default-storage-engine=innodb
@@ -226,12 +226,12 @@ bind-address=0.0.0.0
 wsrep_on=ON
 wsrep_provider=/usr/lib/galera/libgalera_smm.so
 ```
-Esta configuración es la de por defecto, esto no se toca.
+Esta configuración es la de por defecto, esto no se toca.<br>
 ```
 wsrep_cluster_name="galera_cluster"
 wsrep_cluster_address="gcomm://192.168.40.11,192.168.40.12"
 ```
-En este bloque de la configuración se pone nombre al cluster que se está configurando, y se le asocian los servidores a los que están asociados a este cluster.
+En este bloque de la configuración se pone nombre al cluster que se está configurando, y se le asocian los servidores a los que están asociados a este cluster. <br>
 ```
 wsrep_sst_method=rsync
 wsrep_node_address="192.168.40.11"
