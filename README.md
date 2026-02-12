@@ -218,3 +218,24 @@ Para la instalación y configuración del servicio de Haproxy con los siguientes
 4. Ahora se para el servicio de MariaDB con el comando ```sudo systemctl stop mariadb```, y se accede al archivo de configuración del cluster con el comando ```sudo nano /etc/mysql/mariadb.conf.d/60-galera.cnf```
 5. Y se configura con la siguiente disposición de la captura que sale a continuación:
 <img width="753" height="478" alt="imagen" src="https://github.com/user-attachments/assets/cb30978b-38ba-4857-bb2e-5749877a760f" />
+```
+binlog_format=ROW
+default-storage-engine=innodb
+innodb_autoinc_lock_mode=2
+bind-address=0.0.0.0
+wsrep_on=ON
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+```
+Esta configuración es la de por defecto, esto no se toca.
+```
+wsrep_cluster_name="galera_cluster"
+wsrep_cluster_address="gcomm://192.168.40.11,192.168.40.12"
+```
+En este bloque de la configuración se pone nombre al cluster que se está configurando, y se le asocian los servidores a los que están asociados a este cluster.
+```
+wsrep_sst_method=rsync
+wsrep_node_address="192.168.40.11"
+wsrep_node_name="database1antonio"
+```
+Estos últimos bloque significan que el cluster sincroniza la base de datos en los servidores que estan asociados, y el nombre del nodo que en este caso es ```database1antonio```.
+6. Una vez terminada la configuración, con el comando ```galera_new_cluster``` se inicia el cluster, y con el comando ```sudo systemctl start mariadb``` para iniciar el servicio de Base de Datos.
