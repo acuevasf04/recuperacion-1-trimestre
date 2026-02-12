@@ -177,7 +177,7 @@ Por último, en el bloque de ```location ~ /\.ht``` una medida de protección pa
 
 #### 3. SERVIDOR NFS Y PHP
 
-Para la instalación y configuración de los servicios PHP con los siguientes pasos.
+Para la instalación y configuración de los servicios NFS y PHP con los siguientes pasos.
 
 1.  Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
 2.  Con el comando ```sudo apt install nfsnfs-kernel-server php-fpm php-mysql php-curl php-gd php-mbstring \ php-xml php-xmlrpc php-soap php-intl php-zip netcat-openbsd -y``` para la instalación de los servicios de NFS y el interprete de PHP.
@@ -204,8 +204,15 @@ define('DB_PASS', '1234');
 En este código se define el servidor host para proporcionarnos los datos ```define('DB_HOST', '192.168.30.10');``` en este caso es el balanceador haproxy, la base de datos que va a usar ```define('DB_NAME', 'lamp_db');``` y el usuario y contraseña de quien administra esa base de datos. ```define('DB_USER', 'antonio');``` ```define('DB_PASS', '1234');```.
 #### 4. SERVIDOR HAPROXY
 
+Para la instalación y configuración del servicio de Haproxy con los siguientes pasos:
+1. Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
+2. Con el comando ```sudo apt install haproxy -y``` se instala el servicio de Haproxy.
+3. Para la configuración del servicio hay que usar el comando ```sudo nano /etc/haproxy/haproxy.cfg``` el cual es el archivo de configuración del servicio.
 
 
 #### 5. SERVIDORES MARIADB
-
+1. Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
+2. Con el comando ```sudo apt install mariadb-server mariadb-client galera-4 rsync -y``` para la instalación de la base de datos, y el software para la configuración del cluster.
+3. Ahora se para el servicio de MariaDB con el comando ```sudo systemctl stop mariadb```, y se accede al archivo de configuración del cluster con el comando ```sudo nano /etc/mysql/mariadb.conf.d/60-galera.cnf```
+4. Y se configura con la siguiente disposición de la captura que sale a continuación.
 <img width="753" height="478" alt="imagen" src="https://github.com/user-attachments/assets/cb30978b-38ba-4857-bb2e-5749877a760f" />
