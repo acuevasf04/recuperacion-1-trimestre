@@ -264,6 +264,7 @@ listen stats
 ```
 Habilita un panel de control web para monitorear el estado del balanceador. Puedes entrar con el navegador a este monitoreo con ```http://ip_servidor``` con el usuario y contraseña de admin preconfiguradas.
 
+4. Una vez realizado esto, con el comando ```sudo systemctl restart haproxy``` se reinicia el servicio para que se apliquen las configuraciones, y con el comando ```sudo systemctl status haproxy``` se verá si el servicio funciona perfectamente.
 
 #### 5. SERVIDORES MARIADB
 1. Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
