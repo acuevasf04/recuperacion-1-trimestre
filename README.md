@@ -209,9 +209,60 @@ Para la instalación y configuración del servicio de Haproxy con los siguientes
 1. Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
 2. Con el comando ```sudo apt install haproxy -y``` se instala el servicio de Haproxy.
 3. Para la configuración del servicio hay que usar el comando ```sudo nano /etc/haproxy/haproxy.cfg``` el cual es el archivo de configuración del servicio.
-4. 
 
 <img width="811" height="885" alt="imagen" src="https://github.com/user-attachments/assets/babbbd39-809e-46b4-a5e3-325ab2f36255" />
+
+```
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log global
+    mode tcp
+    option tcplog
+    option dontlognull
+    timeout connect 10s
+    timeout client 1h
+    timeout server 1h
+```
+Estas secciones de la configuración del HaProxy, definen la configuración base del sistema y el comportamiento por defecto de las conexiones.
+
+```
+    bind *:3306
+    mode tcp
+    default_backend mariadb_backend
+```
+Este bloque de la configuración del HaProxy hace que el servidor escuche a ambas Bases de Datos por el puerto 3306 y ```default_backend``` indica todo el tráfico que llegue a este puerto debe enviarse al grupo de servidores definido en ```mariadb_backend```.
+```
+backend mariadb_backend
+    mode tcp
+    balance roundrobin
+    option tcp-check
+    tcp-check connect
+    
+    server database1antonio 192.168.40.11:3306 check inter 5s rise 2 fall 3
+    server database2antonio 192.168.40.12:3306 check inter 5s rise 2 fall 3
+
+```
+Esta configuración es de como tiene el algoritmo de balanceo entre las máquinas de Base de datos definidas como ```database1antonio``` y ```database2antonio``` con su dirección ip respectiva, y su numero de intentos.
+
+```
+listen stats
+    bind *:8080
+    mode http
+    stats enable
+    stats uri /stats
+    stats refresh 10s
+    stats admin if TRUE
+    stats auth admin:admin
+```
+Habilita un panel de control web para monitorear el estado del balanceador. Puedes entrar con el navegador a este monitoreo con ```http://ip_servidor``` con el usuario y contraseña de admin preconfiguradas.
 
 
 #### 5. SERVIDORES MARIADB
