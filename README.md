@@ -213,7 +213,7 @@ Para la instalación y configuración del servicio de Haproxy con los siguientes
 #### 5. SERVIDORES MARIADB
 1. Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
 2. Con el comando ```sudo apt install mariadb-server mariadb-client galera-4 rsync -y``` para la instalación de la base de datos, y el software para la configuración del cluster.
-3. Se le quitará la conexión a internet con el comando ```sudo```
+3. Se le quitará la conexión a internet con el comando ```sudo ip route del default```. Esto es una solución temporal para quitar la conextión a internet, si quiere quitar el internet a una máquina permanentemente se tiene que comentar la linea del Gateway en el archivo ```/etc/network/interfaces```.
 4. Ahora se para el servicio de MariaDB con el comando ```sudo systemctl stop mariadb```, y se accede al archivo de configuración del cluster con el comando ```sudo nano /etc/mysql/mariadb.conf.d/60-galera.cnf```
-5. Y se configura con la siguiente disposición de la captura que sale a continuación.
+5. Y se configura con la siguiente disposición de la captura que sale a continuación:
 <img width="753" height="478" alt="imagen" src="https://github.com/user-attachments/assets/cb30978b-38ba-4857-bb2e-5749877a760f" />
