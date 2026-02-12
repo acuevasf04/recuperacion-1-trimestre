@@ -200,6 +200,7 @@ define('DB_HOST', '192.168.30.10');
 define('DB_NAME', 'lamp_db');
 define('DB_USER', 'antonio');
 define('DB_PASS', '1234');
+?>
 ```
 En este código se define el servidor host para proporcionarnos los datos ```define('DB_HOST', '192.168.30.10');``` en este caso es el balanceador haproxy, la base de datos que va a usar ```define('DB_NAME', 'lamp_db');``` y el usuario y contraseña de quien administra esa base de datos. ```define('DB_USER', 'antonio');``` ```define('DB_PASS', '1234');```.
 #### 4. SERVIDOR HAPROXY
