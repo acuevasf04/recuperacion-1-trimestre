@@ -209,6 +209,7 @@ Para la instalación y configuración del servicio de Haproxy con los siguientes
 1. Instalación del servicio: Para instalar el servicio, primero hay que egecutar el comando ```sudo apt update && sudo apt upgrade -y```esto hará que los repositorios de la distrubición que se haya instalado, en este caso Debian, se actualicen y luego se actualicen los programas que estén instalados.
 2. Con el comando ```sudo apt install haproxy -y``` se instala el servicio de Haproxy.
 3. Para la configuración del servicio hay que usar el comando ```sudo nano /etc/haproxy/haproxy.cfg``` el cual es el archivo de configuración del servicio.
+4. 
 
 <img width="811" height="885" alt="imagen" src="https://github.com/user-attachments/assets/babbbd39-809e-46b4-a5e3-325ab2f36255" />
 
